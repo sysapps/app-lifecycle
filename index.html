@@ -36,8 +36,6 @@ var respecConfig = {
         inlineCSS:     true,
         noIDLIn:       true,
         noLegacyStyle: true,
-        extraCSS:      ["../ReSpec.js/css/respec.css"],
-
         wg:           "System Applications Working Group",
         wgURI:        "http://www.w3.org/2012/sysapps/",
         wgPublicList: "public-sysapps",
@@ -54,6 +52,8 @@ var respecConfig = {
       This specification extends <code><a>ServiceWorkerScope</a></code>
       [<a>SERVICEWORKERS</a>] with APIs for managing the lifecycle of an
       application and associated events.
+    </section>
+    <section id='sotd'>
     </section>
     <section class="informative">
       <h2>
@@ -178,11 +178,11 @@ var respecConfig = {
         </p>
         <ul>
           <li>
-            <dfn>Service Workers</dfn> [<a href="http://htmlpreview.github.io/?https://raw.github.com/slightlyoff/ServiceWorker/master/spec/service_worker/index.html"><dfn>SERVICEWORKERS</dfn></a>]
+            Service Workers [<a href="http://htmlpreview.github.io/?https://raw.github.com/slightlyoff/ServiceWorker/master/spec/service_worker/index.html"><dfn>SERVICEWORKERS</dfn></a>]
             (see also the <a href="https://github.com/slightlyoff/ServiceWorker">ServiceWorker GH repo</a>)
           </li>
           <li>
-            <dfn>Task Scheduler</dfn> [<a href="http://www.w3.org/2012/sysapps/web-alarms/"><dfn>TASKSCHEDULER</dfn></a>]
+            Task Scheduler [<a href="http://www.w3.org/2012/sysapps/web-alarms/"><dfn>TASKSCHEDULER</dfn></a>]
           </li>
         </ul>
       </section>
@@ -220,7 +220,7 @@ var respecConfig = {
         [<a>SERVICEWORKERS</a>]
       </p>
       <p>
-        The <code><dfn>TaskScheduler</dfn></code> interface is defined in
+        The <code>TaskScheduler</code> interface is defined in
         [<a>TASKSCHEDULER</a>].
       </p>
     </section>
@@ -615,7 +615,7 @@ var respecConfig = {
           </dd>
         </dl>
         <p>
-          The <code><a>ApplicationRuntime</a></code> instance must only
+          The <code><a><dfn>ApplicationRuntime</dfn></a></code> instance must only
           be exposed on the <code>ServiceWorkerScope</code> object if the
           <a>JavaScript global environment</a> is a <a>service worker
           runtime environment</a>.
@@ -768,7 +768,7 @@ var respecConfig = {
             given name <code>launch</code>.
           </li>
           <li>
-            Initialize the <code>reason</code> attribute to a value
+            Initialize the <code><dfn>reason</dfn></code> attribute to a value
             corresponding to a launch <a>reason</a> as defined in the
             table below.
           </li>
@@ -872,7 +872,7 @@ var respecConfig = {
             Close all the windows created by the service worker script (TODO: see windows() in ServiceWorkerScope)
           </li>
           <li>
-            <a>Discard the service worker (TODO: see close() in WorkerGlobalScope)</a>.
+            Discard the service worker (TODO: see close() in WorkerGlobalScope).
         </ol>
         <div class="issue">
           Need to make it clear that the service worker can be
@@ -919,7 +919,7 @@ var respecConfig = {
             table below.
           </li>
           <li>
-            Dispatch the newly created <code><a>TerminationCanceledEvent</a></code>
+            Dispatch the newly created <code><a>TerminateCanceledEvent</a></code>
             object at the <code><a>ApplicationRuntime</a></code> object.
           </li>
         </ol>
