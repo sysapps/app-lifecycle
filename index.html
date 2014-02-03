@@ -40,7 +40,28 @@ var respecConfig = {
         wgURI:        "http://www.w3.org/2012/sysapps/",
         wgPublicList: "public-sysapps",
         wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/58119/status",
-        subtitle:     "A Service Workers Extension Specification" 
+        subtitle:     "A Service Workers Extension Specification",
+        localBiblio: {
+          "SERVICEWORKERS": {
+              title:     "Service Workers",
+              href:      "https://rawgithub.com/slightlyoff/ServiceWorker/master/spec/service_worker/index.html#service-worker-clients-interface",
+              authors: [
+                         "Alex Russell",
+                         "Jungkee Song"
+              ],
+              status:    "ED",
+              publisher: "W3C"
+          },
+          "TASKSCHEDULER": {
+              title:     "Task Scheduler",
+              href:      "http://www.w3.org/2012/sysapps/web-alarms/",
+              authors:  [
+                         "Christophe Dumez"
+              ],
+              status:    "ED",
+              publisher: "W3C"
+          }
+        }
       };
     </script>
     <style>
@@ -49,8 +70,8 @@ var respecConfig = {
   </head>
   <body>
     <section id='abstract'>
-      This specification extends <code><a>ServiceWorkerScope</a></code>
-      [<a>SERVICEWORKERS</a>] with APIs for managing the lifecycle of an
+      This specification extends <code><a>ServiceWorkerGlobalScope</a></code>
+      [[!SERVICEWORKERS]] with APIs for managing the lifecycle of an
       application and associated events.
     </section>
     <section id='sotd'>
@@ -60,11 +81,11 @@ var respecConfig = {
         Introduction
       </h2>
       <p>
-        The JavaScript global environment defined in this specification allows
-        web developers to author applications that manage the application
-        lifecycle and react to system events. These capabilities
-        allow application developers to create applications that integrate
-        closely with the underlying system.
+        The extensions to the <a>service worker global execution context</a>
+        defined in this specification allow web developers to author
+        applications that manage the application lifecycle and react to system
+        events. These capabilities allow application developers to create
+        applications that integrate closely with the underlying system.
       </p>
       <p>
         Using the APIs defined in this specification, an application is
@@ -103,11 +124,11 @@ var respecConfig = {
         </p>
         <ul>
           <li>
-            Service Workers [<a href="http://htmlpreview.github.io/?https://raw.github.com/slightlyoff/ServiceWorker/master/spec/service_worker/index.html"><dfn>SERVICEWORKERS</dfn></a>]
+            Service Workers [[!SERVICEWORKERS]]
             (see also the <a href="https://github.com/slightlyoff/ServiceWorker">ServiceWorker GH repo</a>)
           </li>
           <li>
-            Task Scheduler [<a href="http://www.w3.org/2012/sysapps/web-alarms/"><dfn>TASKSCHEDULER</dfn></a>]
+            Task Scheduler [[!TASKSCHEDULER]]
           </li>
         </ul>
       </section>
@@ -142,11 +163,11 @@ var respecConfig = {
       <!-- use a workaround for some refs while the specref is updated --> 
       <p>
         The <code><dfn>ServiceWorkerGlobalScope</dfn></code> interface is defined in
-        [<a>SERVICEWORKERS</a>]
+        [[!SERVICEWORKERS]]
       </p>
       <p>
         The <code>TaskScheduler</code> interface is defined in
-        [<a>TASKSCHEDULER</a>].
+        [[!TASKSCHEDULER]].
       </p>
     </section>
     <section class="informative">
@@ -162,8 +183,7 @@ var respecConfig = {
       </p>
       <div class="note">
         In the context of use cases, <dfn>main document</dfn> refers to a
-        JavaScript global environment similar to <a>service worker runtime
-        environment</a>.
+        JavaScript global environment.
       </div>
       <section>
         <h2>
@@ -278,10 +298,10 @@ var respecConfig = {
           resource exhaustion or bad behavior).
         </p>
         <p>
-          The runtime prevents an application from interfering
-          with the application's termination, e.g. event listeners or long-running
-          scripts using APIs such as Geolocation, setTimeout, XMLHttpRequest will
-          not block the runtime from terminating the application.
+          The runtime prevents an application from interfering with the
+          application's termination, e.g. event listeners or long-running
+          scripts using APIs such as Geolocation, setTimeout, XMLHttpRequest
+          will not block the runtime from terminating the application.
         </p>
       </section>
       <section>
@@ -512,12 +532,14 @@ var respecConfig = {
       <p>
         An environment through which the interfaces defined in this
         specification are exposed to JavaScript is referred to as the
-        <dfn>service worker runtime environment</dfn> whose global object is
-        referred to as <dfn>service worker global scope</dfn>.
+        <dfn>service worker global execution context</dfn> (also referred
+        to as the <em>global execution context of a Service Worker</em> in
+        [[!SERVICEWORKERS]]) whose global object is referred to as
+        <dfn>service worker global scope</dfn>.
       </p>
       <section>
-        <h3>Extensions to the <code>ServiceWorkerScope</code> interface</h3>
-        <dl title='partial interface ServiceWorkerScope' class='idl'>
+        <h3>Extensions to the <code>ServiceWorkerGlobalScope</code> interface</h3>
+        <dl title='partial interface ServiceWorkerGlobalScope' class='idl'>
           <dt>
             attribute EventHandler onlaunch
           </dt>
@@ -539,16 +561,10 @@ var respecConfig = {
           <dd>
           </dd>
         </dl>
-        <p>
-          The <code><a><dfn>ApplicationRuntime</dfn></a></code> instance must only
-          be exposed on the <code>ServiceWorkerScope</code> object if the
-          <a>JavaScript global environment</a> is a <a>service worker
-          runtime environment</a>.
-        </p>
         <div class="note">
           This is a (non-exhaustive) list of features
-          <code>ServiceWorkerScope</code> inherits from
-          <code>SharedWorker</code>:
+          <code>ServiceWorkerGlobalScope</code> inherits from
+          <code>WorkerGlobalScope</code>:
           <ul>
             <li>
               <code>navigator</code> object
@@ -589,9 +605,10 @@ var respecConfig = {
         <div class="note">
           Communicating with the service worker is done with explicit
           <code>MessagePort</code> objects similar to shared workers.
-          <a>ServiceWorkerScope</a> [<a>SERVICEWORKERS</a>] defines a
-          <code>windows()</code> method to enumerate all windows that
-          match the service worker's origin and scope.
+          <a>ServiceWorkerGlobalScope</a> [[!SERVICEWORKERS]] has a
+          <code>clients</code> attribute, which represents a list of
+          windows or workers that match the service worker's origin
+          and scope.
         </div>
         <div class="issue">
           Remove features that do not have strong use cases and
@@ -617,7 +634,7 @@ var respecConfig = {
           The following are the event handlers (and their corresponding
           event handler event types) that MUST be supported, as event
           handler IDL attributes, by all objects implementing the
-          <code><a>ApplicationRuntime</a></code> interface:
+          <code><a>ServiceWorkerGlobalScope</a></code> interface:
         <table class="simple">
           <thead>
             <tr>
@@ -683,10 +700,9 @@ var respecConfig = {
         </p>
         <ol>
           <li>
-            Re-instantiate the pre-existing version of the <a>service worker runtime environment</a>,
-            if any. Otherwise, create a new <a>service worker runtime environment</a>
-            whose <a>JavaScript global environment</a> is a <a>service worker global scope</a>.
-            (TODO: fix this step)
+            Re-instantiate the pre-existing version of the <a>service worker
+            global execution context</a>, if any. Otherwise, establishing a new
+            <a>service worker global execution context</a>.
           </li>
           <li>
             Create a <a>LaunchEvent</a> object and initialize it with the
@@ -699,7 +715,7 @@ var respecConfig = {
           </li>
           <li>
             Dispatch the newly created <code><a>LaunchEvent</a></code>
-            object at the <code><a>ApplicationRuntime</a></code> object.
+            object at the <code><a>ServiceWorkerGlobalScope</a></code> object.
           </li>
         </ol>
         <table class="simple">
@@ -784,20 +800,20 @@ var respecConfig = {
         <ol>
           <li>
             Fire a simple event named terminate at the
-            <code><a>ApplicationRuntime</a></code> object.
+            <code><a>ServiceWorkerGlobalScope</a></code> object.
           </li>
           <li>
-            Spin the event loop for a user-agent-defined amount of time
+            Spin the event loop for a user-agent-defined amount of time.
             <div class="note">
               This is intended to allow the application to run scripts to
               persist state, do clean up tasks before being terminated.
             </div>
           </li>
           <li>
-            Close all the windows created by the service worker script (TODO: see windows() in ServiceWorkerScope)
+            Close all the windows created by the service worker script.
           </li>
           <li>
-            Discard the service worker (TODO: see close() in WorkerGlobalScope).
+            Discard the service worker.
         </ol>
         <div class="issue">
           Need to make it clear that the service worker can be
@@ -845,7 +861,7 @@ var respecConfig = {
           </li>
           <li>
             Dispatch the newly created <code><a>TerminateCanceledEvent</a></code>
-            object at the <code><a>ApplicationRuntime</a></code> object.
+            object at the <code><a>ServiceWorkerGlobalScope</a></code> object.
           </li>
         </ol>
         <table class="simple">
