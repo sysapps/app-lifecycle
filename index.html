@@ -42,16 +42,6 @@ var respecConfig = {
         wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/58119/status",
         subtitle:     "A Service Workers Extension Specification",
         localBiblio: {
-          "SERVICEWORKERS": {
-              title:     "Service Workers",
-              href:      "https://rawgithub.com/slightlyoff/ServiceWorker/master/spec/service_worker/index.html",
-              authors: [
-                         "Alex Russell",
-                         "Jungkee Song"
-              ],
-              status:    "ED",
-              publisher: "W3C"
-          },
           "TASKSCHEDULER": {
               title:     "Task Scheduler",
               href:      "http://www.w3.org/2012/sysapps/web-alarms/",
@@ -71,7 +61,7 @@ var respecConfig = {
   <body>
     <section id='abstract'>
       This specification extends <code><a>ServiceWorkerGlobalScope</a></code>
-      [[!SERVICEWORKERS]] with APIs for managing the lifecycle of an
+      [[!service-workers]] with APIs for managing the lifecycle of an
       application and associated events.
     </section>
     <section id='sotd'>
@@ -124,7 +114,7 @@ var respecConfig = {
         </p>
         <ul>
           <li>
-            Service Workers [[!SERVICEWORKERS]]
+            Service Workers [[!service-workers]]
             (see also the <a href="https://github.com/slightlyoff/ServiceWorker">ServiceWorker GH repo</a>)
           </li>
           <li>
@@ -163,7 +153,7 @@ var respecConfig = {
       <!-- use a workaround for some refs while the specref is updated --> 
       <p>
         The <code><dfn>ServiceWorkerGlobalScope</dfn></code> interface is defined in
-        [[!SERVICEWORKERS]]
+        [[!service-workers]]
       </p>
       <p>
         The <code>TaskScheduler</code> interface is defined in
@@ -186,7 +176,7 @@ var respecConfig = {
         [[SYSAPPS-RUNTIME]] is split across multiple specifications and the use
         cases compatible with the Web security model are being addressed by
         a set of specifications: Application Lifecycle and Events and its
-        normative dependencies Service Workers [[!SERVICEWORKERS]], Task
+        normative dependencies Service Workers [[!service-workers]], Task
         Scheduler [[!TASKSCHEDULER]], and the Manifest for web applications
         [[!appmanifest]]. The set of specifications is expected to grow over
         time to cover more of the domain and use cases.
@@ -544,7 +534,7 @@ var respecConfig = {
         specification are exposed to JavaScript is referred to as the
         <dfn>service worker global execution context</dfn> (also referred
         to as the <em>global execution context of a Service Worker</em> in
-        [[!SERVICEWORKERS]]) whose global object is referred to as
+        [[!service-workers]]) whose global object is referred to as
         <dfn>service worker global scope</dfn>.
       </p>
       <section>
@@ -615,7 +605,7 @@ var respecConfig = {
         <div class="note">
           Communicating with the service worker is done with explicit
           <code>MessagePort</code> objects similar to shared workers.
-          <a>ServiceWorkerGlobalScope</a> [[!SERVICEWORKERS]] has a
+          <a>ServiceWorkerGlobalScope</a> [[!service-workers]] has a
           <code>clients</code> attribute, which represents a list of
           windows or workers that match the service worker's origin
           and scope.
